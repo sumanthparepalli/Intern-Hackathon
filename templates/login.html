@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<div class="container">
+    <form action="{{ url_for('login') }}" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div class="row form-group">
+            {{ form.username.label(class='form-label col-12 col-sm-3') }}
+            <br>
+            {{ form.username(size = 32,class='form-control col-12 col-sm-9') }}
+            <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.username.errors[0] }} </div>
+        </div>
+        <div class="row form-group">
+            {{ form.password.label(class="form-label col-12 col-sm-3") }}
+            <br>
+            {{ form.password(size = 32, class="form-control col-12 col-sm-9" ) }}
+            <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.password.errors[0] }} </div>
+        </div>
+        <div class="form-group row">
+            {{ form.remember_me(class="form-check-inline") }} {{ form.remember_me.label(class="form-check-label-inline") }}
+        </div>
+        <br>
+        {{ form.submit(class="btn btn-primary") }}
+    </form>
+</div>
+
+{% endblock %}
