@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 5ed49a2e4b94
+Revision ID: c477ff8c972b
 Revises: 
-Create Date: 2020-06-26 19:57:32.579249
+Create Date: 2020-06-27 14:15:45.111367
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5ed49a2e4b94'
+revision = 'c477ff8c972b'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -38,7 +38,7 @@ def upgrade():
     sa.Column('state', sa.String(length=100), nullable=False),
     sa.Column('city', sa.String(length=100), nullable=False),
     sa.Column('street', sa.String(length=100), nullable=False),
-    sa.Column('zipcode', sa.String(length=10), nullable=False),
+    sa.Column('zipCode', sa.String(length=10), nullable=False),
     sa.Column('latitude', sa.DECIMAL(precision=12, scale=9), nullable=False),
     sa.Column('longitude', sa.DECIMAL(precision=12, scale=9), nullable=False),
     sa.PrimaryKeyConstraint('storeId')
@@ -111,6 +111,7 @@ def upgrade():
     op.create_table('prepaid_scheme',
     sa.Column('storeId', sa.Integer(), nullable=False),
     sa.Column('amount', sa.DECIMAL(precision=10000, scale=9), nullable=True),
+    sa.Column('discount', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['storeId'], ['store.storeId'], ),
     sa.PrimaryKeyConstraint('storeId')
     )
