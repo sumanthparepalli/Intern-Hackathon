@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+
+{% block content %}
+    <div class="container">
+        <form action="{{ url_for('register') }}" method="post" novalidate>
+            {{ form.hidden_tag() }}
+            <div class="row form-group">
+                {{ form.name.label(class='form-label col-12 col-sm-3') }}
+                <br>
+                {{ form.name(class='form-control col-12 col-sm-9') }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.name.errors[0] }} </div>
+            </div>
+            <div class="row form-group">
+                {{ form.username.label(class='form-label col-12 col-sm-3') }}
+                <br>
+                {{ form.username(size = 32,class='form-control col-12 col-sm-9') }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.username.errors[0] }} </div>
+            </div>
+            <div class="row form-group">
+                {{ form.email.label(class='form-label col-12 col-sm-3') }}
+                <br>
+                {{ form.email(class='form-control col-12 col-sm-9') }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.email.errors[0] }} </div>
+            </div>
+            <div class="row form-group">
+                {{ form.password.label(class="form-label col-12 col-sm-3") }}
+                <br>
+                {{ form.password(class="form-control col-12 col-sm-9" ) }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.password.errors[0] }} </div>
+            </div>
+            <div class="row form-group">
+                {{ form.password2.label(class="form-label col-12 col-sm-3") }}
+                <br>
+                {{ form.password2(class="form-control col-12 col-sm-9" ) }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.password2.errors[0] }} </div>
+            </div>
+            <div class="row form-group">
+                {{ form.mobile.label(class="form-label col-12 col-sm-3") }}
+                <br>
+                {{ form.mobile(size = 10, class="form-control col-12 col-sm-9" ) }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.mobile.errors[0] }} </div>
+            </div>
+
+
+            <div class="form-group row">
+                {{ form.userType(class="form-check-inline") }} {{ form.userType.label(class="form-check-label-inline") }}
+            </div>
+
+            <div class="store row form-group">
+                {{ form.storeName.label(class='form-label col-12 col-sm-3') }}
+                <br>
+                {{ form.storeName(class='form-control col-12 col-sm-9') }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.storeName.errors[0] }} </div>
+            </div>
+            <div class="store row form-group">
+                {{ form.country.label(class='form-label col-12 col-sm-3') }}
+                <br>
+                {{ form.country(size = 32,class='form-control col-12 col-sm-9') }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.country.errors[0] }} </div>
+            </div>
+            <div class="store row form-group">
+                {{ form.state.label(class='form-label col-12 col-sm-3') }}
+                <br>
+                {{ form.state(class='form-control col-12 col-sm-9') }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.state.errors[0] }} </div>
+            </div>
+            <div class="store row form-group">
+                {{ form.city.label(class="form-label col-12 col-sm-3") }}
+                <br>
+                {{ form.city(class="form-control col-12 col-sm-9" ) }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.city.errors[0] }} </div>
+            </div>
+            <div class="store row form-group">
+                {{ form.street.label(class="form-label col-12 col-sm-3") }}
+                <br>
+                {{ form.street(class="form-control col-12 col-sm-9" ) }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.street.errors[0] }} </div>
+            </div>
+            <div class="store row form-group">
+                {{ form.zipCode.label(class="form-label col-12 col-sm-3") }}
+                <br>
+                {{ form.zipCode(size = 10, class="form-control col-12 col-sm-9" ) }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.zipCode.errors[0] }} </div>
+            </div>
+            <div class="store row form-group">
+                {{ form.latitude.label(class="form-label col-12 col-sm-3") }}
+                <br>
+                {{ form.latitude(class="form-control col-12 col-sm-9" ) }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.latitude.errors[0] }} </div>
+            </div>
+            <div class="store row form-group">
+                {{ form.longitude.label(class="form-label col-12 col-sm-3") }}
+                <br>
+                {{ form.longitude(size = 10, class="form-control col-12 col-sm-9" ) }}
+                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.longitude.errors[0] }} </div>
+            </div>
+            <br>
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+    </div>
+    <script src="/static/register.js"></script>
+{% endblock %}

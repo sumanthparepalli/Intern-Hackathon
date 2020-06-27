@@ -1,10 +1,13 @@
-from app import db
+from flask_login import UserMixin
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from app import db, login
 from datetime import datetime
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "users"
-    userId = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column('userId', db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(500), nullable=False, index=True)
     userType = db.Column(db.Boolean, nullable=False)
@@ -26,8 +29,19 @@ class User(db.Model):
     creditStores = db.relationship("Store", secondary="credit_scheme")
     StoresMapped = db.relationship("Store", secondary="user_store_map")
 
+    def set_password(self, password):
+        self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
     def __repr__(self):
-        return '<User {}>'.format(self.userId)
+        return '<User {}>'.format(self.id)
+
+
+@login.user_loader
+def load_user(id):
+    return User.query.get(int(id))
 
 
 class UserAddress(db.Model):
@@ -55,6 +69,9 @@ class Store(db.Model):
     zipCode = db.Column(db.String(10), nullable=False)
     latitude = db.Column(db.DECIMAL(12, 9), nullable=False)
     longitude = db.Column(db.DECIMAL(12, 9), nullable=False)
+    __table__args__ = (
+        db.UniqueConstraint(latitude, longitude)
+    )
     products = db.relationship("Product", secondary="inventory")
     creditUsers = db.relationship("User", secondary="credit_scheme")
     usersMapped = db.relationship("User", secondary="user_store_map")
@@ -173,7 +190,7 @@ class CreditScheme(db.Model):
     )
 
 
-class categoryProductMap(db.Model):
+class CategoryProductMap(db.Model):
     categoryId = db.Column(db.Integer, db.ForeignKey('category.categoryId'))
     productId = db.Column(db.Integer, db.ForeignKey('product.productId'))
     categories = db.relationship('Category', backref=db.backref("category_product_map", cascade='all'))
