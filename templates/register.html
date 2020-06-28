@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="container">
-        <form action="{{ url_for('register') }}" method="post" novalidate>
+        <form action="" method="post" novalidate>
             {{ form.hidden_tag() }}
             <div class="row form-group">
                 {{ form.name.label(class='form-label col-12 col-sm-3') }}
@@ -41,10 +41,7 @@
                 <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.mobile.errors[0] }} </div>
             </div>
 
-
-            <div class="form-group row">
-                {{ form.userType(class="form-check-inline") }} {{ form.userType.label(class="form-check-label-inline") }}
-            </div>
+            {% if type=='store' %}
 
             <div class="store row form-group">
                 {{ form.storeName.label(class='form-label col-12 col-sm-3') }}
@@ -94,9 +91,9 @@
                 {{ form.longitude(size = 10, class="form-control col-12 col-sm-9" ) }}
                 <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.longitude.errors[0] }} </div>
             </div>
+            {% endif %}
             <br>
             {{ form.submit(class="btn btn-primary") }}
         </form>
     </div>
-    <script src="/static/register.js"></script>
 {% endblock %}

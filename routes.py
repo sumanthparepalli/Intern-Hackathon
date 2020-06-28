@@ -2,7 +2,7 @@ from werkzeug.urls import url_parse
 
 from app import app, db
 from flask import render_template, redirect, url_for, flash, request
-from forms import LoginForm, RegistrationForm
+from forms import LoginForm, StoreRegistrationForm, UserRegistrationForm
 from flask_login import login_required, login_user, logout_user, current_user
 
 from models import User, Store, UserStoreMap
@@ -58,22 +58,27 @@ def logout():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    form = RegistrationForm()
+    type = request.args.get('type')
+    form = StoreRegistrationForm() if type == 'store' else UserRegistrationForm()
     if form.validate_on_submit():
-        user = User(name=form.name.data, username=form.username.data, email=form.email.data,
-                    userType=form.userType.data, mobile=form.mobile.data)
+        user = User(name=form.name.data, username=form.username.data, email=form.email.data, mobile=form.mobile.data)
         user.set_password(form.password.data)
-        db.session.add(user)
-        if form.userType:
+        if type == 'store':
+            user.userType = 1
             store = Store(storeName=form.storeName.data, country=form.country.data, state=form.state.data,
                           city=form.city.data, street=form.street.data, zipCode=form.zipCode.data,
                           latitude=form.latitude.data, longitude=form.longitude.data)
             db.session.add(store)
+            db.session.add(user)
             usm = UserStoreMap(userId=User.query.filter_by(username=form.username.data).first().id,
                                storeId=Store.query.filter_by(latitude=form.latitude.data,
                                                              longitude=form.longitude.data).first().storeId)
             # usm = UserStoreMap(userId=user.id, storeId=store.storeId)
             db.session.add(usm)
+        else:
+            user.userType = 0
+            db.session.add(user)
         db.session.commit()
-        return redirect(url_parse('/login'))
-    return render_template('register.html', title="Register", form=form)
+        flash('Sign-in to continue')
+        return redirect(url_for('login'))
+    return render_template('register.html', title="Register", form=form, type=type)
