@@ -58,12 +58,12 @@ def logout():
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-    type = request.args.get('type')
-    form = StoreRegistrationForm() if type == 'store' else UserRegistrationForm()
+    user_type = request.args.get('type')
+    form = StoreRegistrationForm() if user_type == 'store' else UserRegistrationForm()
     if form.validate_on_submit():
         user = User(name=form.name.data, username=form.username.data, email=form.email.data, mobile=form.mobile.data)
         user.set_password(form.password.data)
-        if type == 'store':
+        if user_type == 'store':
             user.userType = 1
             store = Store(storeName=form.storeName.data, country=form.country.data, state=form.state.data,
                           city=form.city.data, street=form.street.data, zipCode=form.zipCode.data,
@@ -81,4 +81,4 @@ def register():
         db.session.commit()
         flash('Sign-in to continue')
         return redirect(url_for('login'))
-    return render_template('register.html', title="Register", form=form, type=type)
+    return render_template('register.html', title="Register", form=form, type=user_type)
