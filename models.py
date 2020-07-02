@@ -93,7 +93,8 @@ class Product(db.Model):
     productId = db.Column(db.Integer, primary_key=True, autoincrement=True)
     weight = db.Column(db.INTEGER)
     measurementType = db.Column(db.Boolean)
-    Description = db.Column(db.String(100))
+    description = db.Column(db.String(5000))
+    productName = db.Column(db.String(100), nullable=False)
     stores = db.relationship("Store", secondary="inventory")
     category = db.relationship("Category", secondary="category_product_map")
 
@@ -136,15 +137,13 @@ class Order(db.Model):
     billingAddressId = db.Column(db.Integer)
     orderCount = db.Column(db.Integer, default=0)
     status = db.Column(db.Boolean, default=False)
-    orderDetails = db.relationship('OrderDetails', backref=db.backref('order', cascade='all'),
-                                   lazy='dynamic')
 
     def __repr__(self):
         return "order {}".format(self.orderId)
 
 
 class OrderDetails(db.Model):
-    orderId = db.Column(db.Integer, db.ForeignKey('order.orderId'))
+    orderId = db.Column(db.Integer, db.ForeignKey('order.orderId', ondelete='cascade'))
     productId = db.Column(db.Integer, db.ForeignKey('product.productId'))
     storeId = db.Column(db.Integer, db.ForeignKey('store.storeId'))
     quantity = db.Column(db.Integer, db.CheckConstraint('quantity > 0'), nullable=False)
@@ -158,7 +157,8 @@ class OrderDetails(db.Model):
 
 
 class CardInfo(db.Model):
-    cardNumber = db.Column(db.String(12), primary_key=True)
+    cardId = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    cardNumber = db.Column(db.String(12), unique=True)
     userId = db.Column(db.Integer, db.ForeignKey('users.userId'))
     expMonth = db.Column(db.Integer, db.CheckConstraint('expMonth > 0 and expMonth <13'), nullable=False)
     expYear = db.Column(db.Integer, nullable=False)
@@ -182,7 +182,8 @@ class TransactionDetails(db.Model):
 class CreditScheme(db.Model):
     userId = db.Column(db.Integer, db.ForeignKey('users.userId'))
     storeId = db.Column(db.Integer, db.ForeignKey('store.storeId'))
-    amount = db.Column(db.DECIMAL(10000, 9))
+    amount = db.Column(db.DECIMAL(10000, 9), nullable=False)
+    discount = db.Column(db.Integer, nullable=False)
     users = db.relationship('User', backref=db.backref("credit_scheme", cascade='all'))
     stores = db.relationship('Store', backref=db.backref("credit_scheme", cascade='all'))
     __table__args__ = (
@@ -225,7 +226,7 @@ class SubInventory(db.Model):
     orderId = db.Column(db.Integer, db.ForeignKey('order.orderId'))
     delivery = db.Column(db.Boolean, default=False)
     __table__args__ = (
-        db.PrimaryKeyConstraint(storeId, productId)
+        db.PrimaryKeyConstraint(storeId, productId, orderId)
     )
 
     def __repr__(self):

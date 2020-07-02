@@ -2,12 +2,85 @@
 
 {% block content %}
 
-    <div class="container">
-        <form action="" method="post" novalidate>
-            {{ form.hidden_tag }}
-
-            
-        </form>
+    <div class="row">
+        <div class="col-12 mt-3 text-center text-uppercase">
+            <h2>Add Address</h2>
+        </div>
     </div>
 
+    <main class="row">
+        <div class="col-lg-4 col-md-6 col-sm-8 mx-auto bg-white py-3 mb-4">
+            <div class="row">
+                <div class="col-12">
+                    <form action="" method="POST">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.street.label() }}
+                            {{ form.street(class='form-control') }}
+                            <div class="text-danger  "> {{ form.street.errors[0] }} </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.city.label() }}
+                            {{ form.city(class="form-control" ) }}
+                            <div class="text-danger  "> {{ form.city.errors[0] }} </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.zipcode.label() }}
+                            {{ form.zipcode(class="form-control" ) }}
+                            <div class="text-danger  "> {{ form.zipcode.errors[0] }} </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.state.label() }}
+                            {{ form.state(class="form-control" ) }}
+                            <div class="text-danger  "> {{ form.state.errors[0] }} </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.country.label() }}
+                            {{ form.country(class="form-control" ) }}
+                            <div class="text-danger  "> {{ form.country.errors[0] }} </div>
+                        </div>
+                        <div class="form-group d-none">
+                            {{ form.latitude.label() }}
+                            {{ form.latitude(class="form-control" ) }}
+                            <div class="text-danger  "> {{ form.latitude.errors[0] }} </div>
+                        </div>
+                        <div class="form-group d-none">
+                            {{ form.longitude.label() }}
+                            {{ form.longitude(class="form-control" ) }}
+                            <div class="text-danger  "> {{ form.longitude.errors[0] }} </div>
+                        </div>
+                        <div class="form-group">
+                        <buttton type="button" class="m-1 btn btn-outline-primary" onclick="getLocation()">
+                            Fetch Co-ordinates
+                        </buttton>
+                            {{ form.submit(class="btn btn-outline-dark", disabled=true) }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+    <script>
+        let lat = document.getElementById("latitude");
+        let long = document.getElementById("longitude");
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
+                document.querySelector('#submit').disabled = false;
+
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            lat.value = position.coords.latitude;
+            long.value = position.coords.longitude;
+            {#x.innerHTML = "Latitude: " + position.coords.latitude +#}
+            {#    "<br>Longitude: " + position.coords.longitude;#}
+
+        }
+    </script>
 {% endblock %}

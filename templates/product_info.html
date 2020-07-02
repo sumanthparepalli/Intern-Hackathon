@@ -1,0 +1,119 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="col-12 py-3 my-3">
+            <div class="row">
+                <div class="col-lg-5 col-md-12 mb-3">
+                    <div class="col-12 mb-3">
+                        <div class="img-large border" style="background-image: url('/static/images/image-1.jpg')"></div>
+                    </div>
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-sm-2 col-3">
+                                <div class="img-small border"
+                                     style="background-image: url('/static/images/image-1.jpg')"
+                                     data-src="/static/images/image-1.jpg"></div>
+                            </div>
+                            <div class="col-sm-2 col-3">
+                                <div class="img-small border"
+                                     style="background-image: url('/static/images/image-2.jpg')"
+                                     data-src="/static/images/image-2.jpg"></div>
+                            </div>
+                            <div class="col-sm-2 col-3">
+                                <div class="img-small border"
+                                     style="background-image: url('/static/images/image-3.jpg')"
+                                     data-src="images/image-3.jpg"></div>
+                            </div>
+                            <div class="col-sm-2 col-3">
+                                <div class="img-small border"
+                                     style="background-image: url('/static/images/image-4.jpg')"
+                                     data-src="/static/images/image-4.jpg"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-9">
+                    <div class="col-12 product-name large">
+                        {{ product.productName }}
+                        {#<small>By <a href="">Dell</a></small>#}
+                    </div>
+                    <div class="col-12 px-0">
+                        <hr>
+                    </div>
+                    <div class="col-12">
+                        <table class="table-striped">
+                            <thead>
+                            <tr>
+                                <th>Seller</th>
+                                <th>Price</th>
+                                <th>Discount</th>
+                                <th>qty</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for storeId, storeName, price, discount, qty in sellers %}
+                                <tr>
+                                    <td class="p-3">{{ storeName }}</td>
+                                    <td class="p-3">{{ "$%.2f"|format(price) }}</td>
+                                    <td class="p-3">{{ discount }}</td>
+                                    <td class="p-3">
+                                        <input type="number" id="pro{{ storeId }}" name="qty" min="1" max="{{ qty }}"
+                                               value="1">
+                                        <Button type="button" class="btn btn-warning ml-2"
+                                                onclick="add_to_cart({{ product.productId }}, {{ storeId }}, {{ qty }})">
+                                            Add to Cart
+                                        </Button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-12 mb-3 py-3 text-justify">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-12 text-uppercase">
+                                        <h2><u>Details</u></h2>
+                                    </div>
+                                    <div class="col-12" id="details">
+                                        <p>{{ product.description }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        async function add_to_cart(productId, storeId, qtymax) {
+            qty = document.querySelector('#pro' + storeId)
+            let response;
+            if (1 <= qty.value && qtymax >= qty.value) {
+                response = fetch('/cart/' + productId, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        'storeId': storeId,
+                        'quantity': qty.value
+                    })
+                }).then((response) => {
+                        if(response.status == 500)
+                        {
+                            alert("Address should be set first");
+                        }
+                        else
+                        {
+                            alert("Added to cart")
+                        }
+                    }
+                )
+            } else
+                alert('Invalid value for Quantity - ' + qty.value)
+        }
+    </script>
+{% endblock %}

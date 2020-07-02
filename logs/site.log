@@ -1,1 +1,120 @@
 2020-06-28 21:41:45,281 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 10:03:39,147 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 11:02:43,341 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 11:43:15,370 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 11:48:56,585 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 11:51:56,695 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 11:52:49,455 ERROR: Exception on /add-address [GET] [in E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask_login\utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "E:\VISA\testProj\Flask\sampleApp\routes.py", line 92, in add_address
+    form = AddressForm()
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\wtforms\form.py", line 208, in __call__
+    return type.__call__(cls, *args, **kwargs)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask_wtf\form.py", line 87, in __init__
+    super(FlaskForm, self).__init__(formdata=formdata, **kwargs)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\wtforms\form.py", line 268, in __init__
+    super(Form, self).__init__(self._unbound_fields, meta=meta_obj, prefix=prefix)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\wtforms\form.py", line 51, in __init__
+    field = meta.bind_field(self, unbound_field, options)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\wtforms\meta.py", line 27, in bind_field
+    return unbound_field.bind(form=form, **options)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\wtforms\fields\core.py", line 376, in bind
+    return self.field_class(*self.args, **kw)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\wtforms\fields\core.py", line 716, in __init__
+    super(FloatField, self).__init__(label, validators, **kwargs)
+TypeError: __init__() got an unexpected keyword argument 'vaalidators'
+2020-06-29 11:54:34,594 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 11:54:37,843 ERROR: Exception on /add-address [GET] [in E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask_login\utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "E:\VISA\testProj\Flask\sampleApp\routes.py", line 106, in add_address
+    return render_template('add_address.html', form=form, title='Add Address')
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\templating.py", line 140, in render_template
+    ctx.app,
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\templating.py", line 120, in _render
+    rv = template.render(context)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\jinja2\environment.py", line 1090, in render
+    self.environment.handle_exception()
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\jinja2\environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\jinja2\_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "E:\VISA\testProj\Flask\sampleApp\templates\add_address.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "E:\VISA\testProj\Flask\sampleApp\templates\layout.html", line 19, in top-level template code
+    {% block content %}
+  File "E:\VISA\testProj\Flask\sampleApp\templates\add_address.html", line 50, in block "content"
+    {{ form.submit(class="btn btn-primary") }}
+jinja2.exceptions.UndefinedError: 'forms.AddressForm object' has no attribute 'submit'
+2020-06-29 11:54:46,029 ERROR: Exception on /add-address [GET] [in E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py:1892]
+Traceback (most recent call last):
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\_compat.py", line 39, in reraise
+    raise value
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask_login\utils.py", line 272, in decorated_view
+    return func(*args, **kwargs)
+  File "E:\VISA\testProj\Flask\sampleApp\routes.py", line 106, in add_address
+    return render_template('add_address.html', form=form, title='Add Address')
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\templating.py", line 140, in render_template
+    ctx.app,
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\flask\templating.py", line 120, in _render
+    rv = template.render(context)
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\jinja2\environment.py", line 1090, in render
+    self.environment.handle_exception()
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\jinja2\environment.py", line 832, in handle_exception
+    reraise(*rewrite_traceback_stack(source=source))
+  File "E:\VISA\testProj\Flask\sampleApp\venv\lib\site-packages\jinja2\_compat.py", line 28, in reraise
+    raise value.with_traceback(tb)
+  File "E:\VISA\testProj\Flask\sampleApp\templates\add_address.html", line 1, in top-level template code
+    {% extends "layout.html" %}
+  File "E:\VISA\testProj\Flask\sampleApp\templates\layout.html", line 19, in top-level template code
+    {% block content %}
+  File "E:\VISA\testProj\Flask\sampleApp\templates\add_address.html", line 50, in block "content"
+    {{ form.submit(class="btn btn-primary") }}
+jinja2.exceptions.UndefinedError: 'forms.AddressForm object' has no attribute 'submit'
+2020-06-29 11:55:26,040 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 12:02:01,246 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 12:06:02,177 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 12:13:27,538 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 13:57:47,781 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-29 20:44:27,126 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-06-30 12:03:09,591 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-07-01 17:24:01,825 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-07-02 06:50:09,816 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]
+2020-07-02 06:53:09,947 INFO: Site startup [in E:\VISA\testProj\Flask\sampleApp\app.py:55]

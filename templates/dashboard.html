@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+<title>Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script> <!-- jQuery source -->
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+</style>
+<body class="w3-light-grey">
+
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+  <a href="/logout"><span class="w3-bar-item w3-right">Logout</span></a>
+</div>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="{{url_for('static',filename='images/merchant.jpg')}}" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+    <div class="w3-col s8 w3-bar">
+      <span>Welcome, <strong>{{user.name}}</strong></span><br>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container">
+    <h5>Dashboard</h5>
+  </div>
+  <div class="w3-bar-block">
+    <a href="#" class="w3-bar-item w3-button w3-padding-16 w3-hide-large w3-dark-grey w3-hover-black" onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a>
+    <a href="#store" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i><button onclick="displayStore()" style="background-color:inherit;border:none;">My Stores</button></a>
+    <a href="#addInventory" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i><button onclick="addStoreListDropDown()" style="background-color:inherit;border:none;">Update Inventory</button></a>
+    <a href="#productsToDeliver" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i><button onclick="addSubInventoryStoreListDropDown()" style="background-color:inherit;border:none;">Products To Deliver</button></a>
+    <a href="#creditScheme" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>Credit Scheme Customers</a>
+    <a href="#creditAmount" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>My Credit Scheme</a>
+    <a href="#addingToPrepaidScheme" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>Ask for funds</a>
+  </div>
+</nav>
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
+  </header>
+  <br><br>
+  <div id="store" style="display:none;">
+    <center><button onclick="getStores()">Fetch My Stores</button></center>   
+  <div class="w3-panel">
+    <center><h5>Stores</h5></center>   
+    <div id="storeTable">
+        
+        
+      </div>
+      </div>
+    </div>
+    <br>
+    <br>
+    <br>
+       
+    <div id="addInventory" style="display:block;">
+      <center><h5>Add inventory</h5></center>
+      <center><select id = "storeDropDownList" class="w3-select w3-white" style="width:300px;"></select></center>
+      <br>
+      <center><button id = "storeButton"  onclick="getInventoryByStore()">Show Inventory</button></center>
+    <div class="w3-panel">
+     
+      <div id="inventoryDivision">
+          
+          
+        </div>
+        <br>
+        <center><button onclick="updateInventory()">Update Inventory</button></center>
+        </div>
+      </div>
+      
+      <div id="productsToDeliver" style="display:block;">
+        <center><h5>Products To Deliver</h5></center>
+        <center><select id = "subInventoryStoreDropDownList" class="w3-select w3-white" style="width:300px;"></select></center>
+        <br>
+        <center><button id = "storeButton"  onclick="getSubInventoryByStore()">Show SubInventory</button></center>
+      <div class="w3-panel">
+       
+        <div id="subInventoryDivision">
+            
+            
+          </div>
+          <br>
+          <center><button onclick="updateSubInventory()">Update Sub Inventory</button></center>
+          </div>
+        </div>
+
+
+        <div id="creditScheme" style="display:block;">
+
+        <div class="w3-panel">
+          <center><h5>Customers</h5></center>   
+          <div id="creditSchemeTable">
+              
+              
+            </div>
+            </div>
+            <br>
+            <center><button onclick="getCustomers()">Fetch Credit Scheme Customers</button></center>
+          </div>
+
+          <div id="creditAmount" style="display:block;">
+            <center><h5>Your Credit Scheme Amount and Discounts you offer</h5></center>
+            <br>
+            <center><button id = "creditStoreButton"  onclick="getCreditDetails()">Show My Credit Schemes</button></center>
+          <div class="w3-panel">
+           
+            <div id="creditAmountDivision">
+                
+              </div>
+            
+              </div>
+            </div>
+
+        <div id="addingToPrepaidScheme" style="display:block;">
+            <center><h5>Your Request for Funds and Discounts you offer</h5></center>
+            <br>
+            <center><button id = "prepaidScheme"  onclick="getPrepaidSchemeTable()">Show My Stroes For Funds</button></center>
+          <div class="w3-panel">
+
+            <div id="prepaidSchemeDivision">
+
+              </div>
+
+              </div>
+            </div>
+
+  </div>
+  
+
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-16 w3-light-grey">
+    <h4>FOOTER</h4>
+    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  </footer>
+
+  <!-- End page content -->
+</div>
+{% block javascript %}
+<script>
+// Get the Sidebar
+var storeList = [];
+var mySidebar = document.getElementById("mySidebar");
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+  if (mySidebar.style.display === 'block') {
+    mySidebar.style.display = 'none';
+    overlayBg.style.display = "none";
+  } else {
+    mySidebar.style.display = 'block';
+    overlayBg.style.display = "block";
+  }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+  mySidebar.style.display = "none";
+  overlayBg.style.display = "none";
+}
+
+function getPrepaidSchemeTable() {
+    fetch('/getPrepaidSchemeDetails',{
+    method:'POST',
+    body: JSON.stringify( { "userId":{{user.id}} } )
+    }).then(response => response.json()).then(data => {
+      console.log(data);
+      renderPrepaidSchemeTable(data);
+  });
+}
+
+function renderPrepaidSchemeTable(data)  {
+    htmlContent = "";
+  for(var i=0;i<data.length;i++)
+  {
+    tableRow = "<tr>"+"<td style=\"border:2px solid black;\">"+data[i].storeId+"</td>"+
+        "<td style=\"border:2px solid black;\">"+data[i].storeName+"</td>"+
+        "<td style=\"border:2px solid black;\" contenteditable=\"true\">"+data[i].amount+"</td>"+
+        "<td style=\"border:2px solid black;\ contenteditable=\"true\">"+data[i].discount+"</td>"+"</tr>"
+    htmlContent+=tableRow;
+  }
+  var tableContent = document.getElementById("prepaidSchemeDivision");
+  finalHtmlContent =
+  "<table class= \"w3-striped w3-table w3-grey\"><thead style=\"table-layout:auto;border:2px solid black;width:100%;\"><th style=\"border:2px solid black;\">Store Id</th><th style=\"border:2px solid black;\">Store Name</th><th style=\"border:2px solid black;\">Amount</th><th style=\"border:2px solid black;\">Discount %</th></thead><tbody id=\"prepaidSchemeTable\">";
+  finalHtmlContent+=htmlContent;
+  finalHtmlContent+="</tbody></table>"
+
+  tableContent.innerHTML = finalHtmlContent;
+}
+
+function getCreditDetails() {
+ fetch('/getCreditSchemeDetails',{
+    method:'POST',
+    body: JSON.stringify( { "userId":{{user.id}} } )
+  }).then(response => response.json()).then(data => {
+      console.log(data);
+      renderCreditTable(data);
+  });
+
+}
+
+function renderCreditTable(data) {
+    htmlContent = ""
+  for(var i=0;i<data.length;i++)
+  {
+    tableRow = "<tr>"+
+        "<td style=\"border:2px solid black;\">"+data[i].storeId+"</td>"+
+        "<td style=\"border:2px solid black;\">"+data[i].storeName+"</td>"+
+        "<td style=\"border:2px solid black;\">"+data[i].amount+"</td>"+
+        "<td style=\"border:2px solid black;\">"+data[i].discount+"</td>"+
+        +"</tr>"
+    htmlContent+=tableRow;
+  }
+  var tableContent = document.getElementById("creditAmount");
+  finalHtmlContent =
+  "<table class= \"w3-striped w3-table w3-grey\"><thead style=\"table-layout:auto;border:2px solid black;width:100%;\"><th style=\"border:2px solid black;\">Store Id</th><th style=\"border:2px solid black;\">Store Name</th><th style=\"border:2px solid black;\">Amount</th><th style=\"border:2px solid black;\">Discount %</th></thead><tbody id=\"creditAmountTable\">";
+  finalHtmlContent+=htmlContent;
+  finalHtmlContent+="</tbody></table>"
+
+  tableContent.innerHTML = finalHtmlContent;
+}
+
+function getSubInventoryByStore()
+{
+  var selectedStore = document.getElementById("subInventoryStoreDropDownList");
+  var storeId = selectedStore.options[selectedStore.selectedIndex].text;
+  storeId = storeId[0];
+  getSubInventory(storeId);
+}
+
+function getSubInventory(storeId) {
+
+  fetch('/getSubInventory',{
+    method:'POST',
+    body: JSON.stringify( { "storeId": storeId} )
+  }).then(response => response.json()).then(data => { 
+      renderSubInventory(data);
+  });
+}
+
+
+function getInventoryByStore()
+{
+  var selectedStore = document.getElementById("storeDropDownList");
+  var storeId = selectedStore.options[selectedStore.selectedIndex].text;
+  storeId = storeId[0];
+  getInventory(storeId);
+}
+
+function updateSubInventory()
+{
+  var oTable = document.getElementById('subInventoryTable');
+    //gets rows of table
+    var rowLength = oTable.rows.length;
+    var tableDataJson = [];
+    var selectedStore = document.getElementById("subInventoryStoreDropDownList");
+    var storeId = selectedStore.options[selectedStore.selectedIndex].text;
+    storeId = storeId[0]; 
+    //loops through rows    
+    for (i = 1; i < rowLength; i++)
+    {
+
+      //gets cells of current row  
+       var oCells = oTable.rows.item(i).cells;
+
+       //gets amount of cells of current row
+       var cellLength = oCells.length;
+
+       //loops through each cell in current row
+       var delivery = true;
+       if(oCells.item(6).innerHTML === "NO")
+       {
+         delivery = false;
+       }
+       var inventoryObject = {"storeId":parseInt(storeId),
+                              "productId":parseInt(oCells.item(1).innerHTML),
+                              "orderId"  :parseInt(oCells.item(0).innerHTML),
+                              "delivery": delivery
+                            };
+       tableDataJson.push(inventoryObject);
+    }
+    console.log(tableDataJson);
+    updateSubInventoryDb(tableDataJson);
+}
+
+function renderInventory(inventory)
+{ 
+  htmlContent = ""
+  for(var i=0;i<inventory.length;i++)
+  {
+    tableRows = "<tr>"+"<td style=\"border:2px solid black;\">"+inventory[i].productId+"</td>"+"<td style=\"border:2px solid black;\">"+inventory[i].productDesc
+      +"</td>"+"<td style=\"border:2px solid black;\" contenteditable=\"true\">"+inventory[i].quantity+"</td>"+"<td style=\"border:2px solid black;\" contenteditable=\"true\">"+inventory[i].price+"</td>"
+      +"<td style=\"border:2px solid black;\" contenteditable=\"true\">"+inventory[i].discount+"</td>"+"</tr>";
+    htmlContent+=tableRows;
+  }
+  var tableContent = document.getElementById("inventoryDivision");
+  finalHtmlContent = 
+  "<table class= \"w3-table w3-striped w3-grey\" style=\"table-layout:auto;border:2px solid black;width:100%;\" id=\"inventoryTable\"><thead style=\"border:2px solid black;\"><th>Product Id</th><th style=\"border:2px solid black;\">Product Description</th><th>Quantity</th><th style=\"border:2px solid black;\">Price</th><th>Discount %</th></thead><tbody id=\"inventoryListTable\">";
+  finalHtmlContent+=htmlContent;
+  finalHtmlContent+="</tbody></table>"
+  tableContent.innerHTML = finalHtmlContent;
+}
+
+function updateInventoryDb(data) {
+  fetch('/updateInventory',{
+    method:'POST',
+    body: JSON.stringify(data)
+  }).then(response => response.json()).then(data => { 
+      alert(data["message"])
+  });
+}
+
+function updateSubInventoryDb(data) {
+  fetch('/updateSubInventory',{
+    method:'POST',
+    body: JSON.stringify(data)
+  }).then(response => response.json()).then(data => { 
+      alert(data["message"])
+  });
+}
+
+function updateInventory()
+{
+  var oTable = document.getElementById('inventoryTable');
+    //gets rows of table
+    var rowLength = oTable.rows.length;
+    var tableDataJson = [];
+    var selectedStore = document.getElementById("storeDropDownList");
+    var storeId = selectedStore.options[selectedStore.selectedIndex].text;
+    storeId = storeId[0]; 
+    //loops through rows    
+    for (i = 1; i < rowLength; i++)
+    {
+
+      //gets cells of current row  
+       var oCells = oTable.rows.item(i).cells;
+
+       //gets amount of cells of current row
+       var cellLength = oCells.length;
+
+       //loops through each cell in current row
+       var inventoryObject = {"storeId":parseInt(storeId),
+                              "productId":parseInt(oCells.item(0).innerHTML),
+                              "quantity":parseInt(oCells.item(2).innerHTML),
+                              "price":parseFloat(oCells.item(3).innerHTML),
+                              "discount":parseInt(oCells.item(4).innerHTML),
+                            };
+       tableDataJson.push(inventoryObject);
+    }
+    console.log(tableDataJson);
+    updateInventoryDb(tableDataJson);
+}
+
+function renderSubInventory(subInventory) {
+
+  htmlContent = ""
+  for(var i=0;i<subInventory.length;i++)
+  {
+    var delivery = "NO";
+    if (subInventory[i].delivery === true)
+    {
+      delivery = "YES";
+    }
+    var paid = "NO";
+    if (subInventory[i].paid === true)
+    {
+      paid = "YES";
+    }
+    tableRows = "<tr>"+
+      "<td style=\"border:2px solid black;\">"+subInventory[i].orderId+"</td>"+
+      "<td style=\"border:2px solid black;\">"+subInventory[i].productId+"</td>"+
+      "<td style=\"border:2px solid black;\" >"+subInventory[i].productDesc+"</td>"+
+      "<td style=\"border:2px solid black;\" >"+subInventory[i].quantity+"</td>"+
+      "<td style=\"border:2px solid black;\" >"+subInventory[i].price+"</td>"+
+      "<td style=\"border:2px solid black;\" >"+subInventory[i].discount+"</td>"+
+      "<td style=\"border:2px solid black;\" contenteditable=\"true\">"+delivery+"</td>"+
+      "<td style=\"border:2px solid black;\" >"+paid+"</td>"+
+      "</tr>";
+    htmlContent+=tableRows;  
+  }
+  var tableContent = document.getElementById("subInventoryDivision");
+  finalHtmlContent = 
+  "<table class= \"w3-table w3-striped w3-grey\" style=\"table-layout:auto;border:2px solid black;width:100%;\" id=\"subInventoryTable\">"+
+  "<thead style=\"border:2px solid black;\">"+
+  "<th style=\"border:2px solid black;\">Order Id</th>"+
+  "<th style=\"border:2px solid black;\">Product Id</th>"+
+  "<th style=\"border:2px solid black;\">Product Description</th>"+
+  "<th style=\"border:2px solid black;\">Quantity</th>"+
+  "<th style=\"border:2px solid black;\">Price</th>"+
+  "<th style=\"border:2px solid black;\">Discount %</th>"+
+  "<th style=\"border:2px solid black;\">Delivery</th>"+
+  "<th style=\"border:2px solid black;\">Payment</th>"+
+  "</thead><tbody id=\"inventoryListTable\">";
+  finalHtmlContent+=htmlContent;
+  finalHtmlContent+="</tbody></table>"
+  tableContent.innerHTML = finalHtmlContent;
+}
+
+function getInventory(storeId) {
+  fetch('/getInventory',{
+    method:'POST',
+    body: JSON.stringify( { "storeId": storeId} )
+  }).then(response => response.json()).then(data => { 
+      renderInventory(data);
+  });
+}
+function getStores() { 
+  fetch('/getStore',{
+    method:'POST',
+    body: JSON.stringify( { "userId":{{user.id}} } )
+  }).then(response => response.json()).then(data => {
+      storeList =  data; 
+      renderStoreTable(data);
+  });
+}
+
+function getCustomers() { 
+  fetch('/getCustomerList',{
+    method:'POST',
+    body: JSON.stringify( { "userId":{{user.id}} } )
+  }).then(response => response.json()).then(data => { 
+      console.log(data);
+      renderCustomerTable(data);
+  });
+}
+
+function renderCustomerTable(data) {
+  htmlContent = "";
+  for(var i=0;i<data.length;i++)
+  {
+    tableRow = "<tr>"+"<td style=\"border:2px solid black;\">"+data[i].userId+"</td>"+
+        "<td style=\"border:2px solid black;\">"+data[i].name+"</td>"+
+        "<td style=\"border:2px solid black;\">"+data[i].amount+"</td>"+"</tr>"
+    htmlContent+=tableRow;
+  }
+  var tableContent = document.getElementById("creditSchemeTable");
+  finalHtmlContent = 
+  "<table class= \"w3-striped w3-table w3-grey\"><thead style=\"table-layout:auto;border:2px solid black;width:100%;\"><th style=\"border:2px solid black;\">User Id</th><th style=\"border:2px solid black;\">User Name</th><th style=\"border:2px solid black;\">Amount</th></thead><tbody id=\"customerListTable\">";
+  finalHtmlContent+=htmlContent;
+  finalHtmlContent+="</tbody></table>"
+
+  tableContent.innerHTML = finalHtmlContent;
+}
+
+function addToSubStoreSelect() {
+  for(var i=0;i<storeList.length;i++)
+  {
+      var ddl = document.getElementById("subInventoryStoreDropDownList");
+      var option = document.createElement("OPTION");
+      option.innerHTML = storeList[i].storeId+" "+storeList[i].storeName;
+      ddl.options.add(option);
+  }
+}
+
+function addSubInventoryStoreListDropDown() {
+  if(storeList.length>0)
+  {
+    addToSubStoreSelect();
+  }
+  else {
+    fetch('/getStore',{
+    method:'POST',
+    body: JSON.stringify( { "userId":{{user.id}} } )
+  }).then(response => response.json()).then(data => {
+      storeList =  data; 
+      addToSubStoreSelect();
+  });
+  }
+}
+function addStoreListDropDown() {
+  if(storeList.length>0)
+  {
+    addToStoreSelect();
+  }
+  else {
+    fetch('/getStore',{
+    method:'POST',
+    body: JSON.stringify( { "userId":{{user.id}} } )
+  }).then(response => response.json()).then(data => {
+      storeList =  data; 
+      addToStoreSelect();
+  });
+  }
+}
+
+function addToStoreSelect() {
+  for(var i=0;i<storeList.length;i++)
+  {
+      var ddl = document.getElementById("storeDropDownList");
+      var option = document.createElement("OPTION");
+      option.innerHTML = storeList[i].storeId+" "+storeList[i].storeName;
+      ddl.options.add(option);
+  }
+  
+}
+
+function renderStoreTable(data)
+{
+  htmlContent = ""
+  for(var i=0;i<data.length;i++)
+  {
+    tableRow = "<tr>"+"<td style=\"border:2px solid black;\">"+data[i].storeId+"</td>"+"<td style=\"border:2px solid black;\">"+data[i].storeName+"</td>"+"</tr>"
+    htmlContent+=tableRow;
+  }
+  var tableContent = document.getElementById("storeTable");
+  finalHtmlContent = 
+  "<table class= \"w3-striped w3-table w3-grey\"><thead style=\"table-layout:auto;border:2px solid black;width:100%;\"><th style=\"border:2px solid black;\">Store Id</th><th style=\"border:2px solid black;\">Store Name</th></thead><tbody id=\"storeListTable\">";
+  finalHtmlContent+=htmlContent;
+  finalHtmlContent+="</tbody></table>"
+
+  tableContent.innerHTML = finalHtmlContent;
+}
+
+function displayStore()
+{
+  var x = document.getElementById("store");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  } else {
+    x.style.display = "none";
+  }
+}
+
+</script>
+{% endblock %}
+</body>
+</html>

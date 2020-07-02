@@ -2,31 +2,42 @@
 
 {% block content %}
 
-    <div class="container">
-        <form action="{{ url_for('login') }}" method="post" novalidate>
-            {{ form.hidden_tag() }}
-            <div class="row form-group">
-                {{ form.username.label(class='form-label col-12 col-sm-3') }}
-                <br>
-                {{ form.username(size = 32,class='form-control col-12 col-sm-9') }}
-                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.username.errors[0] }} </div>
-            </div>
-            <div class="row form-group">
-                {{ form.password.label(class="form-label col-12 col-sm-3") }}
-                <br>
-                {{ form.password(size = 32, class="form-control col-12 col-sm-9" ) }}
-                <div class="text-danger row col-12 col-sm-9 offset-sm-3"> {{ form.password.errors[0] }} </div>
-            </div>
-            <div class="form-group row">
-                {{ form.remember_me(class="form-check-inline") }} {{ form.remember_me.label(class="form-check-label-inline") }}
-            </div>
-            <br>
-            {{ form.submit(class="btn btn-primary") }}
-        </form>
-        <div class="row">
-            <p>New User? Register here <a href="{{ url_for('register', type='user') }}">User</a>&nbsp;<a href="
-    {{ url_for('register', type='store') }}">Store</a></p>
+    <div class="row">
+        <div class="col-12 mt-3 text-center text-uppercase">
+            <h2>Login</h2>
         </div>
     </div>
+
+    <main class="row">
+        <div class="col-lg-4 col-md-6 col-sm-8 mx-auto bg-white py-3 mb-4">
+            <div class="row">
+                <div class="col-12">
+                    <form action="{{ url_for('login') }}" method="POST">
+                        {{ form.hidden_tag() }}
+                        <div class="form-group">
+                            {{ form.username.label() }}
+                            {{ form.username(size = 32,class='form-control ') }}
+                            <div class="text-danger"> {{ form.username.errors[0] }} </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.password.label() }}
+                            {{ form.password(size = 32, class="form-control" ) }}
+                            <div class="text-danger"> {{ form.password.errors[0] }} </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                                {{ form.remember_me(class="form-check-input") }}
+                                {{ form.remember_me.label(class="form-check-label ml-2") }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {{ form.submit(class="btn btn-outline-dark") }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
 
 {% endblock %}

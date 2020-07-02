@@ -19,6 +19,7 @@ def ranking_score(store_list):
     if store_list[-2] == 1:
         credit_score = 1
     price_score = store_list[1] - ((store_list[1] * store_list[3]) / 100)
+    price_score = 1.0/price_score
     final_ranking_score = .4 * distance_score + 0.2 * credit_score + .4 * price_score
     return -1.0 * final_ranking_score
 

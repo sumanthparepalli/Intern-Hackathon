@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block sidebar %}
+    {% include "_sidebar.html" %}
+{% endblock %}
+{% block content %}
+    <main class="row">
+
+        <!-- Category Products -->
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 py-3">
+                    <div class="row">
+                        <div class="col-12 text-center text-uppercase">
+                            <h2>Order History</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% for order, orderDetails in ordDetails %}
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3 class="text-center"><strong>Order {{ order.orderId }} summary <small><span
+                                                class="badge badge-danger">
+                                            {% if order.status %}paid
+                                            {% else %} Not paid
+                                            {% endif %}
+                                        </span>
+                                        {% if not order.status %}
+                                            <a href="/checkout" class="btn btn-outline-primary ml-3">Checkout</a>
+                                        {% endif %}
+                                        </small></strong>
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-condensed">
+                                                <thead>
+                                                <tr>
+                                                    <td><strong>Item Name</strong></td>
+                                                    <td class="text-center"><strong>Item Price</strong></td>
+                                                    <td class="text-center"><strong>Item Quantity</strong></td>
+                                                    <td class="text-right"><strong>Total</strong></td>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for ord, productName in orderDetails %}
+                                                    <tr>
+                                                        <td>{{ productName }} Galaxy S5</td>
+                                                        <td class="text-center">{{ "$%.2f"|format(ord.priceAfterDiscount/ord.quantity) }}</td>
+                                                        <td class="text-center">{{ ord.quantity }}</td>
+                                                        <td class="text-right">{{ "$%.2f"|format(ord.priceAfterDiscount) }}</td>
+                                                    </tr>
+                                                {% endfor %}
+
+                                                <tr>
+                                                    <td class="highrow"></td>
+                                                    <td class="highrow"></td>
+                                                    <td class="highrow text-center"><strong>Total</strong></td>
+                                                    <td class="highrow text-right">
+                                                        ${{ "$%.2f"|format(order.totalAmount) }}</td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Category Products -->
+
+        <div class="col-12">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true"><i
+                                class="fas fa-long-arrow-alt-left"></i></a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item active" aria-current="page">
+                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#"><i class="fas fa-long-arrow-alt-right"></i></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </main>
+{% endblock %}

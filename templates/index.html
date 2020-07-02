@@ -1,5 +1,37 @@
 {% extends "layout.html" %}
 
+{% block sidebar %}
+    {% if current_user.userType == 0 %}
+        {% include "_sidebar.html" %}
+    {% endif %}
+{% endblock %}
+
 {% block content %}
-    <h1>Hi, {{ user }}</h1>
+    {% if current_user.userType == 0 %}
+        <div class="container-fluid">
+        <div class="row col-12">
+            {% for product in products %}
+                <div class="col-xl-2 col-lg-3 col-sm-6 my-3">
+                    <div class="col-12 bg-white text-center h-100 product-item">
+                        <div class="row h-100">
+                            <div class="col-12 p-0 mb-3">
+                                <a href="{{ url_for('product_page', productId = product )}}">{{ 'product.image' }}</a>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <a href="{{ url_for('product_page', productId=product) }}" class="product-name"> {{ products[product][0][4][:32] }} </a>
+                            </div>
+                            <div class="col-12 mb-3">
+                            <span class="product-price">
+                                {{ products[product][0][1] }}
+                            </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% elif current_user.userType == 1 %}
+        Store
+    {% endif %}
 {% endblock %}

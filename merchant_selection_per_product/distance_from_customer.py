@@ -23,8 +23,9 @@ def generate_string_payload(customer_coordinate, store_coordinates):
 
 
 def get_distance_from_api(payload):
-    base_url = 'http://www.mapquestapi.com/directions/v2/routematrix?key=sqJrmGs7IhElTqOPYNe6CW6cGufAjxgW'
+    base_url = 'http://www.mapquestapi.com/directions/v2/routematrix?key=7SfmHTLOkhRRcV7iPNPQC44AxpjxVEWe'
     response_from_api = requests.post(base_url, payload).json()
+    print(response_from_api)
     return response_from_api["distance"]
 
 

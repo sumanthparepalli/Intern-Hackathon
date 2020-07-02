@@ -1,0 +1,143 @@
+{% extends"layout.html" %}
+
+{% block content %}
+    <main class="row">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 py-3">
+                    <div class="row">
+                        <div class="col-12 text-center text-uppercase">
+                            <h2>Payment Portal</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 mx-auto">
+                            <div class="card ">
+                                <div class="card-header">
+                                    <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
+                                        <!-- Credit card form tabs -->
+                                        <ul role="tablist"
+                                            class="nav bg-light nav-pills rounded nav-fill mb-3">
+                                            <li class="nav-item"><a data-toggle="pill"
+                                                                    href="#credit-card" class="nav-link active "> <i
+                                                    class="fas fa-credit-card mr-2"></i> Credit Card
+                                            </a></li>
+                                        </ul>
+                                    </div>
+                                </div><!-- End -->
+                                <!-- Credit card form content -->
+                                <div class="tab-content">
+                                    <!-- credit card info-->
+                                    <div id="credit-card" class="tab-pane fade show active p-3">
+                                        <form role="form" action="" method="post" novalidate>
+                                            {{ form.hidden_tag() }}
+                                            <div class="form-group">
+                                                {{ form.nameOnCard.label(class="h6") }}
+                                                {{ form.nameOnCard(class = "form-control", placeholder = 'Name on Card') }}
+                                                <div class="text-danger">{{ form.nameOnCard.errors[0] }}</div>
+                                            </div>
+                                            <div class="form-group">
+                                                {{ form.cardNumber.label(class="h6") }}
+                                                <div class="input-group">
+                                                    {{ form.cardNumber(class = "form-control", placeholder = 'Valid Card Number') }}
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text text-muted">
+                                                            <i class="fab fa-cc-visa mx-1"></i>
+                                                            <i class="fab fa-cc-mastercard mx-1"></i>
+                                                            <i class="fab fa-cc-amex mx-1"></i>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="text-danger">{{ form.cardNumber.errors[0] }}</div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="form-group">
+                                                        <label>
+                                                            <span class="d-none d-sm-inline-block"> <h6>Expiration Date</h6> </span>
+                                                        </label>
+                                                        <div class="input-group">
+                                                            {{ form.expMonth(class="form-control", placeholder="MM") }}
+                                                            {{ form.expYear(class="form-control", placeholder="YY") }}
+                                                        </div>
+                                                        <div class="text-danger"> {{ form.expMonth.errors[0] or form.expYear.errors[0] }}</div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <div class="form-group mb-4">
+                                                        <label data-toggle="tooltip"
+                                                               title="Three digit CV code on the back of your card">
+                                                            <h6>CVV
+                                                                <i class="fa fa-question-circle d-inline"></i>
+                                                            </h6>
+                                                        </label>
+                                                        {{ form.cvv(class="form-control") }}
+                                                        <div class="text-danger"> {{ form.cvv.errors[0] }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer">
+                                                {{ form.ConfirmPayment(class="subscribe btn btn-primary btn-block shadow-sm") }}
+                                                <div class="card-footer">
+                                                    <button type="button"
+                                                            class="subscribe btn btn-warning btn-block shadow-sm"
+                                                            onclick="show_cards()">
+                                                        Use Saved Card
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <div class="row d-none" id="saved">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-12 py-3">
+                    <div class="row">
+                        <div class="col-lg-6 mx-auto">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Card Number</th>
+                                    <th>Name on Card</th>
+                                    <th>Expiry</th>
+                                    <th>CVV</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for card in savedCards %}
+                                    {#                    <div class="col-12 py-3 mx-auto">#}
+                                    <tr>
+                                        <td>{{ card.cardNumber }}</td>
+                                        <td>{{ card.nameOnCard }}</td>
+                                        <td>{{ card.expMonth }}/{{ card.expYear }}</td>
+                                        <td><input type="password" placeholder="CVV" max="3" min="3" required><a
+                                                href="{{ url_for('pay_checkout', cardId=card.cardId) }}" class="ml-3 btn btn-outline-primary">Choose</a>
+                                        </td>
+                                    </tr>
+                                    {#                    </div>#}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function show_cards() {
+            let x = document.getElementById('saved');
+            x.classList.remove('d-none');
+        }
+
+    </script>
+{% endblock %}
